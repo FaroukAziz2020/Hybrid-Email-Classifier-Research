@@ -5,76 +5,177 @@ A research project demonstrating how Large Language Models can strategically aug
 **Author:** Farouk Aziz (BQ2AQM)  
 **Contact:** azizfarouk85@gmail.com
 
+---
+
 ## 🎯 Project Overview
 
 This hybrid framework combines traditional ML with LLMs to create a more accurate, explainable, and multilingual phishing detection system. LLMs are applied strategically to enhance specific aspects rather than replacing ML entirely.
 
+---
+
 ## 📦 Datasets
 
-**Training**: Enron + Ling collections ([Kaggle](https://www.kaggle.com/datasets/naserabdullahalam/phishing-email-dataset)) - 26,097 emails  
-**Testing**: Phishing Email Collection ([Kaggle](https://www.kaggle.com/datasets/subhajournal/phishingemails)) - 17,534 emails
+### Training Dataset
+- **Source**: [Kaggle](https://www.kaggle.com/datasets/subhajournal/phishingemails)
+- **Filename**: `Phishing_Email.csv`
+- **Size**: 17,496 emails after cleaning
+- **Distribution**: 10,972 Safe (0) | 6,524 Phishing (1)
+
+### Testing Dataset
+- **Source**: [HuggingFace](https://huggingface.co/datasets/zionia/phishing-emails/tree/main/data)
+- **Filename**: `test_dataset.csv` (converted from `test-00000-of-00001-8a6d39996ec0fb5b.parquet`)
+- **Size**: 16,478 emails
+- **Distribution**: 7,886 Safe (0) | 8,592 Phishing (1)
+
+---
 
 ## 🧩 Research Structure
 
 ### 1. ML Pipeline (`ML_pipeline.ipynb`)
-- TF-IDF vectorization (10,000 features, n-grams 1-3)
-- Trained models: Logistic Regression, Naive Bayes, SVM, Voting Classifier
-- **Best model**: SVM with sigmoid kernel (ROC-AUC: 0.9984, F1: 0.9807)
+- **TF-IDF Vectorization**: 10,000 features, n-grams 1-3
+- **Trained Models**: Logistic Regression, Naive Bayes, SVM, Voting Classifier
+- **Best Model**: SVM with Sigmoid Kernel
+- **Training Split**: 80/20 (13,996 training | 3,500 test)
 
 ### 2. Hybrid Classification (`hybrid_classification.ipynb`)
 - Identify ML misclassifications on test set
 - Apply LLMs to 25 most uncertain errors
-- Compare error correction performance
+- Compare error correction performance across providers
 
 ### 3. Hybrid Explainability (`hybrid_explanation.ipynb`)
 - Generate LIME explanations for 5 random emails
-- Convert to natural language using LLMs
-- Evaluate readability (Flesch Reading Ease scores)
+- Convert technical outputs to natural language using LLMs
+- Evaluate readability using Flesch Reading Ease scores
 
 ### 4. Hybrid Translation (`hybrid_translation.ipynb`)
-- Test 36 non-English emails across 18 languages
+- Test non-English emails across multiple languages
 - Translate using LLMs with phishing-aware prompts
 - Compare ML performance on raw vs. translated emails
 
+---
+
 ## 📊 Key Results
 
-### Traditional ML Baseline
-- **ROC-AUC**: 0.9984 | **F1**: 0.9807 | **Accuracy**: 0.9828
-- Training time: 3.13s | Prediction: 3.2ms per email
+### 1. Traditional ML Baseline (SVM with Sigmoid Calibration)
 
-### Hybrid Classification (Error Correction on 25 Uncertain Cases)
-| LLM | Accuracy | Errors Fixed | Time/Email |
-|-----|----------|--------------|------------|
-| **DeepSeek** | **88%** | 22/25 ✅ | 1.14s |
-| Claude 3.5 | 80% | 20/25 | 1.41s |
-| GPT-4 | 68% | 17/25 | 0.67s ⚡ |
+#### Training Performance (10-Fold Cross-Validation)
+- **Cross-Validation F1**: 0.9809 ± 0.0046
 
-### Hybrid Explainability (Readability)
-| LLM | Flesch Score | Time/Email |
-|-----|--------------|------------|
-| **GPT-4** | **73.94** ✅ | 5.30s ⚡ |
-| DeepSeek | 68.68 | 13.66s |
-| Claude 3.5 | 43.46 | 6.49s |
+#### Test Set Performance (3,500 emails)
+| Metric | Score |
+|--------|-------|
+| **Accuracy** | 0.9837 |
+| **Precision** | 0.9800 |
+| **Recall** | 0.9762 |
+| **F1 Score** | 0.9781 |
+| **ROC-AUC** | 0.9986 |
+| **Avg Precision** | 0.9977 |
 
-*Higher Flesch scores = more readable for non-technical users*
+#### Confusion Matrix
+- True Negatives: 2,169
+- False Positives: 26
+- False Negatives: 31
+- True Positives: 1,274
 
-### Hybrid Translation (36 Non-English Emails)
-| Approach | Accuracy | Precision | Recall | F1 | Time/Email |
-|----------|----------|-----------|--------|-----|------------|
-| ML Only (Raw) | 58.3% | 56.0% | 77.8% | 0.651 | 6.75ms |
-| **ML + DeepSeek** | **75.0%** ✅ | **80.0%** ✅ | 66.7% | 0.727 | 2.79s |
-| **ML + GPT-4** | 72.2% | 70.0% | **77.8%** | **0.737** ✅ | 1.00s ⚡ |
-| ML + Claude 3.5 | 69.4% | 68.4% | 72.2% | 0.703 | 2.01s |
+#### Additional Metrics
+- **Specificity**: 0.9882
+- **False Positive Rate**: 0.0118
+- **False Negative Rate**: 0.0238
 
-**Translation improvement**: +28.7% accuracy over raw ML baseline
+---
+
+### 2. Hybrid Classification Results
+
+#### ML-Only Performance on Full Test Dataset (16,478 emails)
+| Metric | Score |
+|--------|-------|
+| **Accuracy** | 0.9030 |
+| **Precision** | 0.9183 |
+| **Recall** | 0.8935 |
+| **F1 Score** | 0.9057 |
+
+**Confusion Matrix:**
+- True Negatives: 7,203
+- False Positives: 683
+- False Negatives: 915
+- True Positives: 7,677
+
+**Total ML Mistakes**: 1,598 (683 FP + 915 FN)
+
+#### ML Prediction Speed
+- **Total time**: 5.70 seconds for 16,478 emails
+- **Average per email**: 0.35 ms
+
+---
+
+#### LLM Error Correction on 25 Most Uncertain ML Mistakes
+
+| LLM | Accuracy | Mistakes Fixed | Avg Time/Email |
+|-----|----------|----------------|----------------|
+| **GPT-4** | **80.00%** ✅ | 20/25 | 0.61s ⚡ |
+| **Claude 3.5** | **80.00%** ✅ | 20/25 | 1.31s |
+| DeepSeek | 64.00% | 16/25 | 2.11s |
+
+#### LLM Timing Summary
+| Provider | Total Time (25 emails) | Calls Made | Avg per Email |
+|----------|------------------------|------------|---------------|
+| **GPT-4** | 15.22s ⚡ | 25 | 0.61s |
+| Claude 3.5 | 32.78s | 25 | 1.31s |
+| DeepSeek | 52.64s | 25 | 2.11s |
+
+---
+
+### 3. Hybrid Explainability Results (5 Random Emails)
+
+#### LLM Explanation Generation Time
+| Provider | Total Time | Explanations | Avg per Explanation |
+|----------|------------|--------------|---------------------|
+| **GPT-4** | 20.73s ⚡ | 5 | 4.15s (4146ms) |
+| DeepSeek | 33.62s | 5 | 6.72s (6725ms) |
+| Claude 3.5 | 35.22s | 5 | 7.04s (7045ms) |
+
+#### Readability Scores (Flesch Reading Ease)
+| Provider | Mean Score | Std Dev | Sample Size |
+|----------|------------|---------|-------------|
+| **DeepSeek** | **65.59** ✅ | 6.65 | 5 |
+| GPT-4 | 62.70 | 14.67 | 5 |
+| Claude 3.5 | 32.13 | 16.05 | 5 |
+
+*Higher Flesch scores = more readable for non-technical users (0-100 scale)*
+
+---
+
+### 4. Hybrid Translation Results
+
+#### Performance Comparison Across Translation Approaches
+
+| Approach | Accuracy | Precision | Recall | F1 Score |
+|----------|----------|-----------|--------|----------|
+| ML Only (Raw) | 50.0% | 50.0% | 66.7% | 0.571 |
+| **ML + DeepSeek** | **75.0%** ✅ | **68.0%** | **94.4%** ✅ | **0.791** ✅ |
+| ML + GPT-4 | 63.9% | 60.0% | 83.3% | 0.698 |
+| ML + Claude 3.5 | 58.3% | 55.2% | 88.9% | 0.681 |
+
+**Translation Improvement**: +25.0% accuracy boost (DeepSeek) over raw ML baseline
+
+#### Latency Analysis
+
+| Approach | Avg ML Time | Avg Translation Time | Avg Total Time/Email |
+|----------|-------------|----------------------|----------------------|
+| ML Only | 6.83 ms | N/A | 6.83 ms ⚡ |
+| **ML + GPT-4** | 9.16 ms | 838 ms | **847 ms** ⚡ |
+| ML + Claude 3.5 | 8.57 ms | 2,025 ms | 2,033 ms |
+| ML + DeepSeek | 9.66 ms | 2,602 ms | 2,611 ms |
+
+---
 
 ## 💡 Key Takeaways
 
-1. **DeepSeek excels at error correction** (88% accuracy on hardest cases) and translation accuracy (75%)
-2. **GPT-4 is fastest across all tasks** and produces most readable explanations (Flesch: 73.94)
-3. **Selective LLM integration is cost-effective**: Process all emails with fast ML (3.2ms), apply LLM only to uncertain cases
-4. **Translation dramatically improves multilingual detection**: 28.7% accuracy boost across 18 languages
-5. **Hybrid approach outperforms ML alone** while maintaining efficiency
+1. **GPT-4 excels at error correction** (80% accuracy on hardest cases, tied with Claude) and is the fastest LLM across all tasks
+2. **DeepSeek produces most readable explanations** (Flesch: 65.59) and achieves best translation accuracy (75%)
+3. **Selective LLM integration is cost-effective**: Process all emails with fast ML (0.35ms), apply LLM only to uncertain cases
+4. **Translation dramatically improves multilingual detection**: 25% accuracy boost with DeepSeek
+5. **Hybrid approach outperforms ML alone** while maintaining efficiency for standard cases
 
 ---
 

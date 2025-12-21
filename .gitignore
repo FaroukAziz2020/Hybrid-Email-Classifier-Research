@@ -6,6 +6,10 @@
 phishing_email.csv
 Dataset.csv
 
+# Parquet files
+*.parquet
+test-00000-of-00001-8a6d39996ec0fb5b.parquet
+
 # Model Files
 *.pkl
 model.pkl
