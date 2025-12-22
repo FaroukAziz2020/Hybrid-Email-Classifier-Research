@@ -15,13 +15,13 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 
 ## 📦 Datasets
 
-### Training Dataset
+### ML Training Dataset (Model Training & Internal Evaluation)
 - **Source**: [Kaggle](https://www.kaggle.com/datasets/subhajournal/phishingemails)
 - **Filename**: `Phishing_Email.csv`
 - **Size**: 17,496 emails after cleaning
 - **Distribution**: 10,972 Safe (0) | 6,524 Phishing (1)
 
-### Testing Dataset
+### Hybrid Model Testing Dataset
 - **Source**: [HuggingFace](https://huggingface.co/datasets/zionia/phishing-emails/tree/main/data)
 - **Filename**: `test_dataset.csv` (converted from `test-00000-of-00001-8a6d39996ec0fb5b.parquet`)
 - **Size**: 16,478 emails
@@ -34,8 +34,8 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 ### 1. ML Pipeline (`ML_pipeline.ipynb`)
 - **TF-IDF Vectorization**: 10,000 features, n-grams 1-3
 - **Trained Models**: Logistic Regression, Naive Bayes, SVM, Voting Classifier
-- **Best Model**: SVM with Sigmoid Kernel
-- **Training Split**: 80/20 (13,996 training | 3,500 test)
+- **Best Model**: Linear SVM with sigmoid probability calibration
+- **Evaluation Strategy**: Stratified 80/20 split with 10-fold cross-validation on training data
 
 ### 2. Hybrid Classification (`hybrid_classification.ipynb`)
 - Identify ML misclassifications on test set
