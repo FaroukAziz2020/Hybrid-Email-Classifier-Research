@@ -32,10 +32,13 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 ## 🧩 Research Structure
 
 ### 1. ML Pipeline (`ML_pipeline.ipynb`)
-- **TF-IDF Vectorization**: 10,000 features, n-grams 1-3
-- **Trained Models**: Logistic Regression, Naive Bayes, SVM, Voting Classifier
-- **Best Model**: Linear SVM with sigmoid probability calibration
-- **Evaluation Strategy**: Stratified 80/20 split with 10-fold cross-validation on training data
+
+- **Text Preprocessing**: Advanced noise removal, normalization, duplicate removal, and filtering of very short emails  
+- **Feature Engineering**: TF-IDF vectorization with 10,000 features and n-grams (1–3), including URL and email pattern handling  
+- **Trained Model**: Linear Support Vector Machine (LinearSVC) with sigmoid probability calibration  
+- **Probability Calibration**: `CalibratedClassifierCV` using 5-fold cross-validation  
+- **Evaluation Strategy**: Stratified 80/20 train–test split with 10-fold stratified cross-validation.
+
 
 ### 2. Hybrid Classification (`hybrid_classification.ipynb`)
 - Identify ML misclassifications on test set
