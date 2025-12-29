@@ -42,11 +42,11 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 
 ### 2. Hybrid Classification (`hybrid_classification.ipynb`)
 - Identify ML misclassifications on test set
-- Apply LLMs to 25 most uncertain errors
+- Apply LLMs to most uncertain errors
 - Compare error correction performance across providers
 
 ### 3. Hybrid Explainability (`hybrid_explanation.ipynb`)
-- Generate LIME explanations for 5 random emails
+- Generate LIME explanations for random emails
 - Convert technical outputs to natural language using LLMs
 - Evaluate readability using Flesch Reading Ease scores
 
@@ -111,7 +111,7 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 
 ---
 
-#### LLM Error Correction on 25 Most Uncertain ML Mistakes
+#### LLM Error Correction on Most Uncertain ML Mistakes
 
 | LLM | Accuracy | Mistakes Fixed | Avg Time/Email |
 |-----|----------|----------------|----------------|
@@ -120,29 +120,29 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 | DeepSeek | 64.00% | 16/25 | 2.11s |
 
 #### LLM Timing Summary
-| Provider | Total Time (25 emails) | Calls Made | Avg per Email |
-|----------|------------------------|------------|---------------|
-| **GPT-4** | 15.22s ⚡ | 25 | 0.61s |
-| Claude 3.5 | 32.78s | 25 | 1.31s |
-| DeepSeek | 52.64s | 25 | 2.11s |
+| Provider | Total Time | Avg per Email |
+|----------|------------------------|---------------|
+| **GPT-4** | 15.22s ⚡ | 0.61s |
+| Claude 3.5 | 32.78s | 1.31s |
+| DeepSeek | 52.64s | 2.11s |
 
 ---
 
-### 3. Hybrid Explainability Results (5 Random Emails)
+### 3. Hybrid Explainability Results
 
 #### LLM Explanation Generation Time
-| Provider | Total Time | Explanations | Avg per Explanation |
-|----------|------------|--------------|---------------------|
-| **GPT-4** | 20.73s ⚡ | 5 | 4.15s (4146ms) |
-| DeepSeek | 33.62s | 5 | 6.72s (6725ms) |
-| Claude 3.5 | 35.22s | 5 | 7.04s (7045ms) |
+| Provider | Total Time | Avg per Explanation |
+|----------|------------|---------------------|
+| **GPT-4** | 20.73s ⚡ | 4.15s (4146ms) |
+| DeepSeek | 33.62s | 6.72s (6725ms) |
+| Claude 3.5 | 35.22s | 7.04s (7045ms) |
 
 #### Readability Scores (Flesch Reading Ease)
-| Provider | Mean Score | Std Dev | Sample Size |
-|----------|------------|---------|-------------|
-| **DeepSeek** | **65.59** ✅ | 6.65 | 5 |
-| GPT-4 | 62.70 | 14.67 | 5 |
-| Claude 3.5 | 32.13 | 16.05 | 5 |
+| Provider | Mean Score | Std Dev |
+|----------|------------|---------|
+| **DeepSeek** | **65.59** ✅ | 6.65 |
+| GPT-4 | 62.70 | 14.67 |
+| Claude 3.5 | 32.13 | 16.05 |
 
 *Higher Flesch scores = more readable for non-technical users (0-100 scale)*
 
