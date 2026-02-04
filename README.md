@@ -106,8 +106,8 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 **Total ML Mistakes**: 1,598 (683 FP + 915 FN)
 
 #### ML Prediction Speed
-- **Total time**: 5.70 seconds for 16,478 emails
-- **Average per email**: 0.35 ms
+- **Total time**: 6.95 seconds for 16,478 emails
+- **Average per email**: 0.42 ms
 
 ---
 
@@ -115,16 +115,16 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 
 | LLM | Accuracy | Mistakes Fixed | Avg Time/Email |
 |-----|----------|----------------|----------------|
-| **GPT-4** | **80.00%** ✅ | 20/25 | 0.61s ⚡ |
-| **Claude 3.5** | **80.00%** ✅ | 20/25 | 1.31s |
-| DeepSeek | 64.00% | 16/25 | 2.11s |
+| **GPT-4** | **76.00%**  | 19/25 | 0.63s ⚡ |
+| **Claude 3.5** | **88.00%** ✅ | 22/25 | 1.78s |
+| DeepSeek | 76.00% | 19/25 | 3.18s |
 
 #### LLM Timing Summary
 | Provider | Total Time | Avg per Email |
 |----------|------------------------|---------------|
-| **GPT-4** | 15.22s ⚡ | 0.61s |
-| Claude 3.5 | 32.78s | 1.31s |
-| DeepSeek | 52.64s | 2.11s |
+| **GPT-4** | 15.63s ⚡ | 0.63s |
+| Claude 3.5 | 44.45s | 1.78s |
+| DeepSeek | 79.42s | 3.18s |
 
 ---
 
@@ -174,11 +174,12 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 
 ## 💡 Key Takeaways
 
-1. **GPT-4 excels at error correction** (80% accuracy on hardest cases, tied with Claude) and is the fastest LLM across all tasks
-2. **DeepSeek produces most readable explanations** (Flesch: 65.59) and achieves best translation accuracy (75%)
-3. **Selective LLM integration is cost-effective**: Process all emails with fast ML (0.35ms), apply LLM only to uncertain cases
-4. **Translation dramatically improves multilingual detection**: 25% accuracy boost with DeepSeek
-5. **Hybrid approach outperforms ML alone** while maintaining efficiency for standard cases
+1. **Claude achieves the highest correction accuracy** (88% on the 25 most uncertain ML mistakes), outperforming GPT and DeepSeek.
+2. **GPT is the fastest LLM** across tasks
+3. **DeepSeek produces most readable explanations** (Flesch: 65.59) and achieves best translation accuracy (75%)
+4. **Selective LLM integration is cost-effective**: Process all emails with fast ML (0.42ms), apply LLM only to uncertain cases
+5. **Translation dramatically improves multilingual detection**: 25% accuracy boost with DeepSeek
+6. **Hybrid approach outperforms ML alone** while maintaining efficiency for standard cases
 
 ---
 
