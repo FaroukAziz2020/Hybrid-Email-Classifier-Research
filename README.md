@@ -106,8 +106,8 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 **Total ML Mistakes**: 1,598 (683 FP + 915 FN)
 
 #### ML Prediction Speed
-- **Total time**: 6.95 seconds for 16,478 emails
-- **Average per email**: 0.42 ms
+- **Total time**: 5.55 seconds for 16,478 emails
+- **Average per email**: 0.34 ms
 
 ---
 
@@ -115,16 +115,16 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 
 | LLM | Accuracy | Mistakes Fixed | Avg Time/Email |
 |-----|----------|----------------|----------------|
-| **GPT-4** | **76.00%**  | 19/25 | 0.63s ⚡ |
-| **Claude 3.5** | **88.00%** ✅ | 22/25 | 1.78s |
-| DeepSeek | 76.00% | 19/25 | 3.18s |
+| **GPT** | 68.00%  | 170/250 | **0.67s** ⚡ |
+| **Claude** | **93.60%** ✅ | 234/250 | 2.06s |
+| DeepSeek | 57.94% | 135/250 | 14.46s |
 
 #### LLM Timing Summary
 | Provider | Total Time | Avg per Email |
 |----------|------------------------|---------------|
-| **GPT-4** | 15.63s ⚡ | 0.63s |
-| Claude 3.5 | 44.45s | 1.78s |
-| DeepSeek | 79.42s | 3.18s |
+| **GPT** | **167.64s** ⚡ | 0.67s |
+| Claude | 514.85s | 2.06s |
+| DeepSeek | 3614.80s | 14.46s |
 
 ---
 
@@ -133,16 +133,16 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 #### LLM Explanation Generation Time
 | Provider | Total Time | Avg per Explanation |
 |----------|------------|---------------------|
-| **GPT-4** | 20.73s ⚡ | 4.15s (4146ms) |
+| **GPT** | **20.73s** ⚡ | 4.15s (4146ms) |
 | DeepSeek | 33.62s | 6.72s (6725ms) |
-| Claude 3.5 | 35.22s | 7.04s (7045ms) |
+| Claude | 35.22s | 7.04s (7045ms) |
 
 #### Readability Scores (Flesch Reading Ease)
 | Provider | Mean Score | Std Dev |
 |----------|------------|---------|
 | **DeepSeek** | **65.59** ✅ | 6.65 |
-| GPT-4 | 62.70 | 14.67 |
-| Claude 3.5 | 32.13 | 16.05 |
+| GPT | 62.70 | 14.67 |
+| Claude | 32.13 | 16.05 |
 
 *Higher Flesch scores = more readable for non-technical users (0-100 scale)*
 
@@ -156,8 +156,8 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 |----------|----------|-----------|--------|----------|
 | ML Only (Raw) | 50.0% | 50.0% | 66.7% | 0.571 |
 | **ML + DeepSeek** | **75.0%** ✅ | **68.0%** | **94.4%** ✅ | **0.791** ✅ |
-| ML + GPT-4 | 63.9% | 60.0% | 83.3% | 0.698 |
-| ML + Claude 3.5 | 58.3% | 55.2% | 88.9% | 0.681 |
+| ML + GPT | 63.9% | 60.0% | 83.3% | 0.698 |
+| ML + Claude | 58.3% | 55.2% | 88.9% | 0.681 |
 
 **Translation Improvement**: +25.0% accuracy boost (DeepSeek) over raw ML baseline
 
@@ -165,19 +165,19 @@ This hybrid framework combines traditional ML with LLMs to create a more accurat
 
 | Approach | Avg ML Time | Avg Translation Time | Avg Total Time/Email |
 |----------|-------------|----------------------|----------------------|
-| ML Only | 6.83 ms | N/A | 6.83 ms ⚡ |
-| **ML + GPT-4** | 9.16 ms | 838 ms | **847 ms** ⚡ |
-| ML + Claude 3.5 | 8.57 ms | 2,025 ms | 2,033 ms |
+| **ML Only** | 6.83 ms | N/A | **6.83 ms** ⚡ |
+| **ML + GPT** | 9.16 ms | 838 ms | **847 ms** ⚡ |
+| ML + Claude | 8.57 ms | 2,025 ms | 2,033 ms |
 | ML + DeepSeek | 9.66 ms | 2,602 ms | 2,611 ms |
 
 ---
 
 ## 💡 Key Takeaways
 
-1. **Claude achieves the highest correction accuracy** (88% on the 25 most uncertain ML mistakes), outperforming GPT and DeepSeek.
+1. **Claude achieves the highest correction accuracy** (93.6% on the 250 most uncertain ML mistakes), outperforming GPT and DeepSeek.
 2. **GPT is the fastest LLM** across tasks
 3. **DeepSeek produces most readable explanations** (Flesch: 65.59) and achieves best translation accuracy (75%)
-4. **Selective LLM integration is cost-effective**: Process all emails with fast ML (0.42ms), apply LLM only to uncertain cases
+4. **Selective LLM integration is cost-effective**: Process all emails with fast ML (0.34ms), apply LLM only to uncertain cases
 5. **Translation dramatically improves multilingual detection**: 25% accuracy boost with DeepSeek
 6. **Hybrid approach outperforms ML alone** while maintaining efficiency for standard cases
 
